@@ -2,45 +2,83 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>proj3ct</groupId>
     <artifactId>OnlineStore</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>OnlineStore</name>
     <description>OnlineStore</description>
+
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
         <telegram.version>6.1.0</telegram.version>
+        <spring-context-support.version>6.0.2</spring-context-support.version>
+        <lombok.version>1.18.24</lombok.version>
+        <hibernate-core.version>6.1.5.Final</hibernate-core.version>
+        <postgresql.version>42.5.1</postgresql.version>
+        <emoji-java.version>5.1.1</emoji-java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
             <version>${telegram.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+            <version>3.0.0</version>
         </dependency>
+
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.5.0</version>
-            <scope>runtime</scope>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring-context-support.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <version>3.0.0</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate-core.version}</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vdurmont</groupId>
+            <artifactId>emoji-java</artifactId>
+            <version>${emoji-java.version}</version>
         </dependency>
 
     </dependencies>
@@ -51,6 +89,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.7.3</version>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
             </plugin>
         </plugins>
     </build>

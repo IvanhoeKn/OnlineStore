@@ -33,6 +33,12 @@ public class BotStatesHandler {
         if (isRegistration(botStates)) {
             return messageHandlers.get(BotStates.REGISTRATION);
         }
+        if (isMenu(botStates)) {
+            return messageHandlers.get(BotStates.SHOW_MAIN_MENU);
+        }
+        if (botStates.equals(BotStates.SHOW_CATALOG)) {
+            return messageHandlers.get(BotStates.SHOW_CATALOG);
+        }
         return messageHandlers.get(BotStates.ERROR);
     }
 
@@ -52,6 +58,17 @@ public class BotStatesHandler {
             case ASC_SURNAME:
             case ASC_PHONE:
             case PROFILE_REGISTERED:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private boolean isMenu(BotStates botStates) {
+        switch (botStates) {
+            case SHOW_MAIN_MENU:
+            case SHOW_PROFILE:
+            case SHOW_BASKET:
                 return true;
             default:
                 return false;

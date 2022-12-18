@@ -23,5 +23,4 @@ public class LocaleMessageService {
     public String getMessage(String message, Object... args) {
         return messageSource.getMessage(message, args, locale);
     }
-
 }

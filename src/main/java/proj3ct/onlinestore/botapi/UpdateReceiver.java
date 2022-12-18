@@ -3,10 +3,11 @@ package proj3ct.onlinestore.botapi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import proj3ct.onlinestore.botapi.handler.BotStatesHandler;
+import proj3ct.onlinestore.botapi.handler.callbackquery.CallbackUpdateReciever;
 import proj3ct.onlinestore.dao.UserDao;
 import proj3ct.onlinestore.model.Users;
 import proj3ct.onlinestore.service.ReplyMessageService;
@@ -20,14 +21,16 @@ public class UpdateReceiver {
 
     private final ReplyMessageService replyMessageService;
 
+    private final CallbackUpdateReciever callbackUpdateReciever;
     public UpdateReceiver(BotStatesHandler botStatesHandler,
+                          CallbackUpdateReciever callbackUpdateReciever,
                           ReplyMessageService replyMessageService) {
         this.botStatesHandler = botStatesHandler;
+        this.callbackUpdateReciever = callbackUpdateReciever;
         this.replyMessageService = replyMessageService;
     }
 
     public PartialBotApiMethod<? extends Serializable> handleUpdate(Update update) {
-        SendMessage replyMessage;
         if (update.hasMessage() && update.getMessage().hasText()) {
             Message message = update.getMessage();
             BotStates botStates = getBotStates(message);
@@ -41,10 +44,10 @@ public class UpdateReceiver {
                     message.getText(),
                     botStates
             );
-            replyMessage = (SendMessage) botStatesHandler.processInputMessage(botStates, message);
-            //return botStatesHandler.handleTextMessageByState(message, botStates);
+
+            return botStatesHandler.processInputMessage(botStates, message);
         }
-        /*else if (update.hasCallbackQuery()) {
+        else if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             log.info(
                     "CallbackQuery from: {}; " +
@@ -54,9 +57,8 @@ public class UpdateReceiver {
                     callbackQuery.getData(),
                     callbackQuery.getId()
             );
-
-            return callbackQueryHandler.handleCallbackQuery(callbackQuery);
-        }*/
+            return callbackUpdateReciever.processCallbackQuery(callbackQuery);
+        }
         else {
             log.error(
                     "Unsupported request from: {}; " +
@@ -64,10 +66,8 @@ public class UpdateReceiver {
                     update.getMessage().getFrom().getUserName(),
                     update.getMessage().getChatId()
             );
-
             return replyMessageService.getTextMessage(update.getMessage().getChatId(), "Я могу принимать только текстовые сообщения!");
         }
-        return replyMessage;
     }
 
     private BotStates getBotStates(Message message) {
@@ -84,6 +84,7 @@ public class UpdateReceiver {
                     user.setSurname("default");
                     user.setPhoneNumber("80000000000");
                     user.setIdTelegram(userId);
+                    user.setIdDiscount(5);
                     userDao.persist(user);
                     System.out.println(userId);
                     botStates = BotStates.REGISTRATION;
@@ -95,14 +96,17 @@ public class UpdateReceiver {
             case "/help":
                 botStates = BotStates.HELP;
                 break;
-            case "Поиск по ссылке":
-                botStates = BotStates.SHOW_CATEGORIES;
+            case "Профиль":
+                botStates = BotStates.SHOW_PROFILE;
                 break;
-            case "Поиск по названию":
-                botStates = BotStates.SHOW_PRODUCTS;
+            case "Корзина":
+                botStates = BotStates.SHOW_BASKET;
+                break;
+            case "/catalog":
+                botStates = BotStates.SHOW_CATALOG;
                 break;
             default:
-                botStates = userDao.getCurrentBotStatesForUserByTgId(userId);
+                botStates = BotStates.ERROR;
                 break;
         }
         userDao.setCurrentBotStatesForUserWithTgId(userId, botStates);

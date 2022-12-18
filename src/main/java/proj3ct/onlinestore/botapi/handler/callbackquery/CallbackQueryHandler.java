@@ -7,4 +7,6 @@ import java.io.Serializable;
 
 public interface CallbackQueryHandler {
     PartialBotApiMethod<? extends Serializable> handleCallbackQuery(CallbackQuery callbackQuery);
+
+    CallbackQueryType getHandlerQueryType();
 }

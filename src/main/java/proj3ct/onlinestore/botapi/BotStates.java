@@ -7,9 +7,9 @@ public enum BotStates {
     ASC_PHONE,
     PROFILE_REGISTERED,
     SHOW_MAIN_MENU,
-    SHOW_CATEGORIES,
-    SHOW_PRODUCTS,
+    SHOW_PROFILE,
+    SHOW_BASKET,
+    SHOW_CATALOG,
     HELP,
-    ERROR,
-    NULL
+    ERROR
 }

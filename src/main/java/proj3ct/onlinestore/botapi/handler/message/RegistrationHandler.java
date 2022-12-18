@@ -76,7 +76,10 @@ public class RegistrationHandler implements MessageHandler {
                     user.setPhoneNumber(userAnswer);
                     userDao.update(user);
                     userDao.setCurrentBotStatesForUserWithTgId(userId, BotStates.SHOW_MAIN_MENU);
-                    chooseLocale = "reply.registrationSuccess";
+                    MainMenuMessageHandler menuHandler = new MainMenuMessageHandler(replyMessageService, localeMessageService);
+                    SendMessage sendMessage = menuHandler.handle(message);
+                    sendMessage.setText(localeMessageService.getMessage("reply.registrationSuccess") + sendMessage.getText());
+                    return sendMessage;
                 }
                 else {
                     chooseLocale = "reply.incorrectPhone";

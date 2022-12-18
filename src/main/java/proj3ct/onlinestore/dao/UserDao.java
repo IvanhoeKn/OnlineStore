@@ -9,6 +9,7 @@ import proj3ct.onlinestore.model.Users;
 public class UserDao extends DAO<Users> {
     public UserDao() {
         super();
+        setModelClass(Users.class);
     }
 
     public Users getUserByTgId(Long userId) {

@@ -33,11 +33,20 @@ public class BotStatesHandler {
         if (isRegistration(botStates)) {
             return messageHandlers.get(BotStates.REGISTRATION);
         }
-        if (isMenu(botStates)) {
-            return messageHandlers.get(BotStates.SHOW_MAIN_MENU);
+        if (isChangeProfile(botStates)) {
+            return messageHandlers.get(BotStates.CHANGE);
         }
         if (botStates.equals(BotStates.SHOW_CATALOG)) {
             return messageHandlers.get(BotStates.SHOW_CATALOG);
+        }
+        if (botStates.equals(BotStates.SHOW_BASKET)) {
+            return messageHandlers.get(BotStates.SHOW_BASKET);
+        }
+        if (botStates.equals(BotStates.SHOW_MAIN_MENU)) {
+            return messageHandlers.get(BotStates.SHOW_MAIN_MENU);
+        }
+        if (botStates.equals(BotStates.SHOW_PROFILE)) {
+            return messageHandlers.get(BotStates.SHOW_PROFILE);
         }
         return messageHandlers.get(BotStates.ERROR);
     }
@@ -64,29 +73,15 @@ public class BotStatesHandler {
         }
     }
 
-    private boolean isMenu(BotStates botStates) {
+    private boolean isChangeProfile(BotStates botStates) {
         switch (botStates) {
-            case SHOW_MAIN_MENU:
-            case SHOW_PROFILE:
-            case SHOW_BASKET:
+            case CHANGE:
+            case CHANGE_NAME:
+            case CHANGE_SURNAME:
+            case CHANGE_PHONE:
                 return true;
             default:
                 return false;
         }
     }
-
-   /* public BotApiMethod<Message> handleTextMessageByState(Message message, BotStates botStates) {
-        MessageHandler messageHandler;
-        try {
-            System.out.println(messageHandlers.size());
-            messageHandler = messageHandlers.stream()
-                    .filter(m -> m.canHandle(botStates))
-                    .findAny()
-                    .orElseThrow(NoHandlerFoundException::new);
-        } catch (NoHandlerFoundException e) {
-            log.error("No handler was found for current bot condition: {}", botStates);
-            return replyMessageService.getTextMessage(message.getChatId(), "Невозможно обработать запрос.");
-        }
-        return  messageHandler.handle(message);
-    }*/
 }

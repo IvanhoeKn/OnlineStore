@@ -29,7 +29,7 @@ public class Users {
     @Basic
     @Column(name = "id_telegram", nullable = false)
     private Long idTelegram;
-    @OneToMany(mappedBy = "usersByIdUser")
+    @OneToMany(mappedBy = "usersByIdOrderUser")
     private Collection<Orders> ordersByIdUser;
     @ManyToOne
     @JoinColumn(name = "id_discount", referencedColumnName = "id_discount")

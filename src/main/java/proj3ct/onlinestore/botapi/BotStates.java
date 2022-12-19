@@ -11,5 +11,10 @@ public enum BotStates {
     SHOW_BASKET,
     SHOW_CATALOG,
     HELP,
+    CHANGE_NAME,
+    CHANGE_SURNAME,
+    CHANGE_PHONE,
+    CHANGE,
+    ADMIN,
     ERROR
 }

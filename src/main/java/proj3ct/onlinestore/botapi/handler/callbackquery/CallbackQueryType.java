@@ -7,5 +7,15 @@ public enum CallbackQueryType {
     INC,
     DEC,
     CONFIRM,
-    CANCEL
+    CANCEL,
+    PROCESS_PROFILE,
+    CHANGE_NAME,
+    CHANGE_SURNAME,
+    CHANGE_PHONE,
+    DELETE_PROFILE,
+    CONFIRM_DELETE,
+    CANCEL_DELETE,
+    ADMIN,
+    PRODUCT_MANAGER,
+    ORDER_MANAGER
 }

@@ -2,31 +2,25 @@ package proj3ct.onlinestore.botapi.handler.callbackquery;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import proj3ct.onlinestore.botapi.handler.keyboard.InlineKeyboardService;
-import proj3ct.onlinestore.dao.OrderStatusDao;
-import proj3ct.onlinestore.dao.OrdersDao;
-import proj3ct.onlinestore.dao.ProductDao;
-import proj3ct.onlinestore.dao.UserDao;
-import proj3ct.onlinestore.model.Discount;
-import proj3ct.onlinestore.model.Orders;
-import proj3ct.onlinestore.model.Product;
 import proj3ct.onlinestore.service.LocaleMessageService;
 import proj3ct.onlinestore.service.ReplyMessageService;
 
 import java.io.Serializable;
 
 @Component
-public class CallbackProcessOrderHandler implements CallbackQueryHandler {
-    private static final CallbackQueryType HANDLER_QUERY_TYPE = CallbackQueryType.PROCESS_ORDER;
+public class CallbackAdminHandler implements CallbackQueryHandler {
+    private static final CallbackQueryType HANDLER_QUERY_TYPE = CallbackQueryType.ADMIN;
     private ReplyMessageService messageService;
     private LocaleMessageService localeMessageService;
 
     private InlineKeyboardService keyboardService;
 
-    public CallbackProcessOrderHandler(ReplyMessageService messageService,
-                                       LocaleMessageService localeMessageService,
-                                       InlineKeyboardService keyboardService) {
+    public CallbackAdminHandler(ReplyMessageService messageService,
+                                      LocaleMessageService localeMessageService,
+                                      InlineKeyboardService keyboardService) {
         this.messageService = messageService;
         this.localeMessageService = localeMessageService;
         this.keyboardService = keyboardService;
@@ -40,15 +34,15 @@ public class CallbackProcessOrderHandler implements CallbackQueryHandler {
     @Override
     public PartialBotApiMethod<? extends Serializable> handleCallbackQuery(CallbackQuery callbackQuery) {
         final Long chatId = callbackQuery.getMessage().getChatId();
-        CallbackQueryType queryType = CallbackQueryType.valueOf(callbackQuery.getData().replaceFirst("^[0-9]+_", ""));
-        Integer prefixId = Integer.parseInt(callbackQuery.getData().split("_")[0]);
-        OrdersDao ordersDao = new OrdersDao();
-        UserDao userDao = new UserDao();
-        ProductDao productDao = new ProductDao();
-        Orders order = ordersDao.find(prefixId);
-        Product product = order.getProductByIdOrderProduct();
-        Discount discount = userDao.getUserByTgId(callbackQuery.getFrom().getId()).getDiscountByIdDiscount();
+        CallbackQueryType queryType = CallbackQueryType.valueOf(callbackQuery.getData());
         switch (queryType) {
+            case ORDER_MANAGER:
+                break;
+            case PRODUCT_MANAGER:
+                break;
+        }
+        return new SendMessage();
+        /*switch (queryType) {
             case INC:
                 if (product.getAmount() > 0) {
                     order.setOrderAmount(order.getOrderAmount() + 1);
@@ -108,5 +102,5 @@ public class CallbackProcessOrderHandler implements CallbackQueryHandler {
                 + "\nКоличество на складе: " + product.getAmount()
                 + "\nЦена: " + product.getPrice();
         return messageService.getEditedMarkup(chatId, callbackQuery.getMessage().getMessageId(), callbackQuery.getMessage().getReplyMarkup(), textMessage);
-    }
+    */}
 }

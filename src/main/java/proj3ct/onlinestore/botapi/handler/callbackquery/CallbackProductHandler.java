@@ -33,8 +33,7 @@ public class CallbackProductHandler implements CallbackQueryHandler {
     public PartialBotApiMethod<? extends Serializable> handleCallbackQuery(CallbackQuery callbackQuery) {
         final long chatId = callbackQuery.getMessage().getChatId();
         Integer prefixId = Integer.parseInt(callbackQuery.getData().split("_")[0]);
-        InlineKeyboardMarkupBuilder keyboardMarkupBuilder = InlineKeyboardMarkupBuilder.create(chatId)
-                .setText(localeMessageService.getMessage("reply.product"));
+        InlineKeyboardMarkupBuilder keyboardMarkupBuilder = InlineKeyboardMarkupBuilder.create(chatId);
         ProductDao productDao = new ProductDao();
         List<Product> list = productDao.getProductsByCategoryId(prefixId);
         if (!list.isEmpty()) {
@@ -43,7 +42,10 @@ public class CallbackProductHandler implements CallbackQueryHandler {
                         .button(product.getName(), product.getIdProduct().toString() + "_CREATE_ORDER")
                         .endRow();
             });
-            return keyboardMarkupBuilder.build();
+            return messageService.getEditedMarkup(chatId,
+                    callbackQuery.getMessage().getMessageId(),
+                    keyboardMarkupBuilder.getKeyboard(),
+                    localeMessageService.getMessage("reply.product"));
         }
         else {
             return messageService.sendAnswerCallbackQuery(localeMessageService.getMessage("reply.product.empty"), true, callbackQuery);

@@ -7,33 +7,31 @@ import java.util.Objects;
 @IdClass(OrdersPK.class)
 @Table(name = "orders", schema = "online_store_repo", catalog = "online_store")
 public class Orders {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "online_store_repo.hibernate_sequence")
     @Id
     @Column(name = "id_order", nullable = false)
     private Integer idOrder;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id_user", nullable = false, insertable = false, updatable = false)
-    private Integer idUser;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_order_user", nullable = false)
+    private Integer idOrderUser;
     @Id
-    @Column(name = "id_product", nullable = false, insertable = false, updatable = false)
-    private Integer idProduct;
+    @Column(name = "id_order_product", nullable = false)
+    private Integer idOrderProduct;
     @Basic
-    @Column(name = "status", nullable = true, insertable = false, updatable = false)
-    private Integer status;
+    @Column(name = "id_order_status", nullable = false, insertable = false, updatable = false)
+    private Integer idOrderStatus;
     @Basic
-    @Column(name = "amount", nullable = false)
-    private Integer amount;
+    @Column(name = "order_amount", nullable = false)
+    private Integer orderAmount;
     @ManyToOne
-    @JoinColumn(name = "id_user", referencedColumnName = "id_user", nullable = false)
-    private Users usersByIdUser;
+    @JoinColumn(name = "id_order_user", referencedColumnName = "id_user", nullable = false)
+    private Users usersByIdOrderUser;
     @ManyToOne
-    @JoinColumn(name = "id_product", referencedColumnName = "id_product", nullable = false)
-    private Product productByIdProduct;
+    @JoinColumn(name = "id_order_product", referencedColumnName = "id_product", nullable = false)
+    private Product productByIdOrderProduct;
     @ManyToOne
-    @JoinColumn(name = "status", referencedColumnName = "id")
-    private OrderStatus orderStatusByStatus;
+    @JoinColumn(name = "id_order_status", referencedColumnName = "id", nullable = false)
+    private OrderStatus orderStatusByIdOrderStatus;
 
     public Integer getIdOrder() {
         return idOrder;
@@ -43,36 +41,36 @@ public class Orders {
         this.idOrder = idOrder;
     }
 
-    public Integer getIdUser() {
-        return idUser;
+    public Integer getIdOrderUser() {
+        return idOrderUser;
     }
 
-    public void setIdUser(Integer idUser) {
-        this.idUser = idUser;
+    public void setIdOrderUser(Integer idOrderUser) {
+        this.idOrderUser = idOrderUser;
     }
 
-    public Integer getIdProduct() {
-        return idProduct;
+    public Integer getIdOrderProduct() {
+        return idOrderProduct;
     }
 
-    public void setIdProduct(Integer idProduct) {
-        this.idProduct = idProduct;
+    public void setIdOrderProduct(Integer idOrderProduct) {
+        this.idOrderProduct = idOrderProduct;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getIdOrderStatus() {
+        return idOrderStatus;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setIdOrderStatus(Integer idOrderStatus) {
+        this.idOrderStatus = idOrderStatus;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Integer getOrderAmount() {
+        return orderAmount;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setOrderAmount(Integer orderAmount) {
+        this.orderAmount = orderAmount;
     }
 
     @Override
@@ -80,35 +78,35 @@ public class Orders {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Orders orders = (Orders) o;
-        return Objects.equals(idOrder, orders.idOrder) && Objects.equals(idUser, orders.idUser) && Objects.equals(idProduct, orders.idProduct) && Objects.equals(status, orders.status) && Objects.equals(amount, orders.amount);
+        return Objects.equals(idOrder, orders.idOrder) && Objects.equals(idOrderUser, orders.idOrderUser) && Objects.equals(idOrderProduct, orders.idOrderProduct) && Objects.equals(idOrderStatus, orders.idOrderStatus) && Objects.equals(orderAmount, orders.orderAmount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idOrder, idUser, idProduct, status, amount);
+        return Objects.hash(idOrder, idOrderUser, idOrderProduct, idOrderStatus, orderAmount);
     }
 
-    public Users getUsersByIdUser() {
-        return usersByIdUser;
+    public Users getUsersByIdOrderUser() {
+        return usersByIdOrderUser;
     }
 
-    public void setUsersByIdUser(Users usersByIdUser) {
-        this.usersByIdUser = usersByIdUser;
+    public void setUsersByIdOrderUser(Users usersByIdOrderUser) {
+        this.usersByIdOrderUser = usersByIdOrderUser;
     }
 
-    public Product getProductByIdProduct() {
-        return productByIdProduct;
+    public Product getProductByIdOrderProduct() {
+        return productByIdOrderProduct;
     }
 
-    public void setProductByIdProduct(Product productByIdProduct) {
-        this.productByIdProduct = productByIdProduct;
+    public void setProductByIdOrderProduct(Product productByIdOrderProduct) {
+        this.productByIdOrderProduct = productByIdOrderProduct;
     }
 
-    public OrderStatus getOrderStatusByStatus() {
-        return orderStatusByStatus;
+    public OrderStatus getOrderStatusByIdOrderStatus() {
+        return orderStatusByIdOrderStatus;
     }
 
-    public void setOrderStatusByStatus(OrderStatus orderStatusByStatus) {
-        this.orderStatusByStatus = orderStatusByStatus;
+    public void setOrderStatusByIdOrderStatus(OrderStatus orderStatusByIdOrderStatus) {
+        this.orderStatusByIdOrderStatus = orderStatusByIdOrderStatus;
     }
 }

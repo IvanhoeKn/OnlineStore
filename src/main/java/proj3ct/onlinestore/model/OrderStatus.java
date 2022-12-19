@@ -14,7 +14,7 @@ public class OrderStatus {
     @Basic
     @Column(name = "status", nullable = false, length = 20)
     private String status;
-    @OneToMany(mappedBy = "orderStatusByStatus")
+    @OneToMany(mappedBy = "orderStatusByIdOrderStatus")
     private Collection<Orders> ordersById;
 
     public Integer getId() {

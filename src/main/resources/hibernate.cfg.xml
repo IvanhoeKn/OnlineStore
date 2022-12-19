@@ -14,12 +14,13 @@
   <property name="hibernate.hbm2ddl.auto">update</property>
   <mapping class="proj3ct.onlinestore.model.Discount"/>
   <mapping class="proj3ct.onlinestore.model.Orders"/>
+  <mapping class="proj3ct.onlinestore.model.OrdersPK"/>
   <mapping class="proj3ct.onlinestore.model.OrderStatus"/>
   <mapping class="proj3ct.onlinestore.model.Product"/>
   <mapping class="proj3ct.onlinestore.model.ProductCategories"/>
   <mapping class="proj3ct.onlinestore.model.Users"/>
 
-    <!-- DB schema will be updated if needed -->
+  <!-- DB schema will be updated if needed -->
   <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
 </session-factory>
 </hibernate-configuration>

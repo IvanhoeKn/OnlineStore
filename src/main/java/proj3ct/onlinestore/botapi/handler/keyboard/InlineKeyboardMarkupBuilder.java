@@ -1,5 +1,6 @@
 package proj3ct.onlinestore.botapi.handler.keyboard;
 
+import lombok.Getter;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import static java.lang.Math.toIntExact;
 
+@Getter
 public class InlineKeyboardMarkupBuilder implements KeyboardMarkupBuilder {
     private Long chatId;
     private String text;
@@ -81,6 +83,12 @@ public class InlineKeyboardMarkupBuilder implements KeyboardMarkupBuilder {
         editMessageText.setMessageId(toIntExact(messageId));
         editMessageText.setReplyMarkup(keyboardMarkup);
         return editMessageText;
+    }
+
+    public InlineKeyboardMarkup getKeyboard() {
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+        keyboardMarkup.setKeyboard(keyboard);
+        return keyboardMarkup;
     }
 }
 

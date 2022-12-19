@@ -32,8 +32,12 @@ public class CallbackUpdateReciever {
         var ref = new Object() {
             CallbackQueryType usersQueryType = CallbackQueryType.valueOf(usersQuery.getData().replaceFirst("^[0-9]+_", ""));
         };
-        if (isProcessOrder(ref.usersQueryType))
+        if (isProcessOrder(ref.usersQueryType)) {
             ref.usersQueryType = CallbackQueryType.PROCESS_ORDER;
+        }
+        if (isProcessProfile(ref.usersQueryType)) {
+            ref.usersQueryType = CallbackQueryType.PROCESS_PROFILE;
+        }
         Optional<CallbackQueryHandler> queryHandler = callbackQueryHandlers.stream()
                 .filter(callbackQuery -> callbackQuery.getHandlerQueryType().equals(ref.usersQueryType))
                 .findFirst();
@@ -47,6 +51,21 @@ public class CallbackUpdateReciever {
             case DEC:
             case CONFIRM:
             case CANCEL:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private boolean isProcessProfile(CallbackQueryType callbackQueryType) {
+        switch (callbackQueryType) {
+            case PROCESS_PROFILE:
+            case CHANGE_NAME:
+            case CHANGE_SURNAME:
+            case CHANGE_PHONE:
+            case DELETE_PROFILE:
+            case CANCEL_DELETE:
+            case CONFIRM_DELETE:
                 return true;
             default:
                 return false;

@@ -1,25 +1,26 @@
 package proj3ct.onlinestore.model;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Embeddable
 public class OrdersPK implements Serializable {
     @Column(name = "id_order", nullable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "online_store_repo.hibernate_sequence")
     private Integer idOrder;
-    @Column(name = "id_user", nullable = false, insertable = false, updatable = false)
+    @Column(name = "id_order_user", nullable = false, insertable = false, updatable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idUser;
-    @Column(name = "id_product", nullable = false, insertable = false, updatable = false)
+    private Integer idOrderUser;
+    @Column(name = "id_order_product", nullable = false, insertable = false, updatable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idProduct;
+    private Integer idOrderProduct;
 
     public Integer getIdOrder() {
         return idOrder;
@@ -29,20 +30,20 @@ public class OrdersPK implements Serializable {
         this.idOrder = idOrder;
     }
 
-    public Integer getIdUser() {
-        return idUser;
+    public Integer getIdOrderUser() {
+        return idOrderUser;
     }
 
-    public void setIdUser(Integer idUser) {
-        this.idUser = idUser;
+    public void setIdOrderUser(Integer idOrderUser) {
+        this.idOrderUser = idOrderUser;
     }
 
-    public Integer getIdProduct() {
-        return idProduct;
+    public Integer getIdOrderProduct() {
+        return idOrderProduct;
     }
 
-    public void setIdProduct(Integer idProduct) {
-        this.idProduct = idProduct;
+    public void setIdOrderProduct(Integer idOrderProduct) {
+        this.idOrderProduct = idOrderProduct;
     }
 
     @Override
@@ -50,11 +51,11 @@ public class OrdersPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrdersPK ordersPK = (OrdersPK) o;
-        return Objects.equals(idOrder, ordersPK.idOrder) && Objects.equals(idUser, ordersPK.idUser) && Objects.equals(idProduct, ordersPK.idProduct);
+        return Objects.equals(idOrder, ordersPK.idOrder) && Objects.equals(idOrderUser, ordersPK.idOrderUser) && Objects.equals(idOrderProduct, ordersPK.idOrderProduct);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idOrder, idUser, idProduct);
+        return Objects.hash(idOrder, idOrderUser, idOrderProduct);
     }
 }

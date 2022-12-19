@@ -23,7 +23,7 @@ public class Product {
     @Basic
     @Column(name = "amount", nullable = false)
     private Integer amount;
-    @OneToMany(mappedBy = "productByIdProduct")
+    @OneToMany(mappedBy = "productByIdOrderProduct")
     private Collection<Orders> ordersByIdProduct;
     @ManyToOne
     @JoinColumn(name = "id_category", referencedColumnName = "id_categories", nullable = false)

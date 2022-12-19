@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import proj3ct.onlinestore.botapi.handler.BotStatesHandler;
 import proj3ct.onlinestore.botapi.handler.callbackquery.CallbackUpdateReciever;
+import proj3ct.onlinestore.dao.DiscountDao;
 import proj3ct.onlinestore.dao.UserDao;
 import proj3ct.onlinestore.model.Users;
 import proj3ct.onlinestore.service.ReplyMessageService;
@@ -79,12 +80,13 @@ public class UpdateReceiver {
             case "/start":
                 Users user = userDao.getUserByTgId(userId);
                 if (user == null) {
+                    DiscountDao discountDao = new DiscountDao();
                     user = new Users();
                     user.setName("default");
                     user.setSurname("default");
                     user.setPhoneNumber("80000000000");
                     user.setIdTelegram(userId);
-                    user.setIdDiscount(5);
+                    user.setDiscountByIdDiscount(discountDao.findById(5));
                     userDao.persist(user);
                     System.out.println(userId);
                     botStates = BotStates.REGISTRATION;
@@ -105,8 +107,11 @@ public class UpdateReceiver {
             case "/catalog":
                 botStates = BotStates.SHOW_CATALOG;
                 break;
+            case "/admin":
+                botStates = BotStates.ADMIN;
+                break;
             default:
-                botStates = BotStates.ERROR;
+                botStates = userDao.getCurrentBotStatesForUserByTgId(userId);
                 break;
         }
         userDao.setCurrentBotStatesForUserWithTgId(userId, botStates);

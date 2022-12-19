@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 @Service
 public class ReplyMessageService {
@@ -14,6 +15,7 @@ public class ReplyMessageService {
         sendMessage.enableMarkdown(false);
         sendMessage.setChatId(chatId);
         sendMessage.setText(text);
+        sendMessage.setParseMode("HTML");
         return sendMessage;
     }
 
@@ -29,6 +31,17 @@ public class ReplyMessageService {
         EditMessageText editMessageText = new EditMessageText();
         editMessageText.setChatId(chatId);
         editMessageText.setMessageId(messageId);
+        editMessageText.setText(text);
+        editMessageText.setParseMode("HTML");
+        return editMessageText;
+    }
+
+    public EditMessageText getEditedMarkup(Long chatId, Integer messageId, InlineKeyboardMarkup keyboardMarkup, String text) {
+        EditMessageText editMessageText = new EditMessageText();
+        editMessageText.setChatId(chatId);
+        editMessageText.setMessageId(messageId);
+        editMessageText.setReplyMarkup(keyboardMarkup);
+        editMessageText.setParseMode("HTML");
         editMessageText.setText(text);
         return editMessageText;
     }
